@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主页 - 小旅的个人网站</title>
+    
+    <!-- 引入字体：标题使用优雅的衬线体(Serif)，正文使用清晰的无衬线体(Sans-serif)，新增毛笔字体(Zhi Mang Xing) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500&family=Noto+Serif+SC:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+    
+    <!-- 引入 FontAwesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 配置 Tailwind：舒适大气的深色系 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'morandi-bg': '#1E222A', /* 柔和的深蓝灰色，比纯黑更透气、更舒服 */
+                        'morandi-card': '#272C35', /* 卡片背景色，与背景形成舒适的层次感 */
+                        'morandi-blue': '#8B9BB4', /* 莫兰迪灰蓝色，作为点缀 */
+                        'morandi-heading': '#F3F4F6', /* 标题颜色：明亮但不刺眼的白 */
+                        'morandi-text': '#D1D5DB', /* 正文颜色：柔和的浅灰，久看不累 */
+                        'morandi-light': '#374151', /* 边框和分割线 */
+                    },
+                    fontFamily: {
+                        sans: ['"Inter"', '"Noto Sans SC"', 'sans-serif'], // 正文用无衬线，清晰易读
+                        serif: ['"Playfair Display"', '"Noto Serif SC"', 'serif'], // 标题用衬线，大气优雅
+                    },
+                    boxShadow: {
+                        'soft': '0 8px 30px rgba(0, 0, 0, 0.2)',
+                        'text-soft': '0 2px 10px rgba(0, 0, 0, 0.5)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- 引入自定义 CSS 动画和特定样式 -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-morandi-bg text-morandi-text font-sans antialiased overflow-x-hidden selection:bg-morandi-blue selection:text-white text-base md:text-lg">
+
+    <!-- 悬浮提示框 -->
+    <div id="toast" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-morandi-card text-morandi-heading border border-morandi-light px-8 py-4 rounded shadow-lg opacity-0 transition-opacity duration-300 z-[110] pointer-events-none tracking-wider text-base">
+        提示信息
+    </div>
+
+    <!-- 简约悬浮导航栏 (始终显示) -->
+    <nav id="navbar" class="fixed top-0 w-full bg-[#1E222A]/80 backdrop-blur-lg border-b border-white/5 z-40 shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
+        <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="text-2xl font-serif italic tracking-widest text-morandi-heading">Lv.</div>
+            <ul class="flex space-x-10 text-sm tracking-widest hidden md:flex text-morandi-text/80">
+                <li><a href="#home" class="hover:text-white transition-colors duration-300">主页</a></li>
+                <li><a href="#timeline" class="hover:text-white transition-colors duration-300">人生轨迹</a></li>
+                <li><a href="#hobbies" class="hover:text-white transition-colors duration-300">内心角落</a></li>
+                <li><a href="#contact" class="hover:text-white transition-colors duration-300">空谷回音</a></li>
+            </ul>
+            <!-- 移动端菜单按钮 -->
+            <button id="mobile-menu-btn" class="md:hidden text-morandi-text focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <!-- 移动端下拉菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-morandi-card border-t border-morandi-light">
+            <ul class="flex flex-col text-center py-6 space-y-6 text-sm tracking-widest text-morandi-text/80">
+                <li><a href="#home" class="block hover:text-white transition-colors duration-300">主页</a></li>
+                <li><a href="#timeline" class="block hover:text-white transition-colors duration-300">人生轨迹</a></li>
+                <li><a href="#hobbies" class="block hover:text-white transition-colors duration-300">内心角落</a></li>
+                <li><a href="#contact" class="block hover:text-white transition-colors duration-300">空谷回音</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 1. 首屏 (主页) -->
+    <section id="home" class="relative w-full h-screen flex items-center justify-center bg-morandi-bg pt-10">
+        <!-- 调整了 max-w 和间距，让整体内容向左偏移一点，达到视觉平衡 -->
+        <div class="max-w-6xl mx-auto px-6 w-full flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24 lg:gap-32 pr-0 md:pr-12">
+            
+            <!-- 左侧照片 (高级圆润设计感) -->
+            <div class="w-full md:w-1/2 flex justify-center md:justify-end fade-up-element opacity-0 translate-y-8 transition-all duration-1000">
+                <!-- 极简高级圆润画框 -->
+                <div class="relative p-2 md:p-3 bg-gradient-to-br from-[#2A2F3A] to-[#1E222A] rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.4)] cursor-pointer group border border-white/5" onclick="openLightbox()">
+                    <div class="w-64 h-[22rem] md:w-[24rem] md:h-[32rem] overflow-hidden relative rounded-[2rem]">
+                        <!-- 照片将由 JS 自动从 assets/images/home-photo.jpg 加载 -->
+                        <img id="home-photo" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="小旅的照片" 
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧文字 (简体毛笔字，三行居中排版) -->
+            <div class="w-full md:w-1/2 flex flex-col justify-center items-center md:items-start fade-up-element opacity-0 translate-y-8 transition-all duration-1000 delay-200">
+                <!-- 使用简体毛笔字体 (Zhi Mang Xing) 并强制不换行，整体居中 -->
+                <div class="flex flex-col items-center space-y-4 md:space-y-8 text-morandi-heading whitespace-nowrap" style="font-family: 'Zhi Mang Xing', cursive; text-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                    <h1 class="text-6xl md:text-[6rem] lg:text-[7.5rem] leading-none tracking-wide">欢迎来到</h1>
+                    <h1 class="text-7xl md:text-[7rem] lg:text-[9rem] leading-none text-morandi-blue tracking-widest">小旅</h1>
+                    <h1 class="text-6xl md:text-[6rem] lg:text-[7.5rem] leading-none tracking-wide">个人空间</h1>
+                </div>
+                
+                <!-- 英文翻译 (小字号，设计感英文字体，居中) -->
+                <div class="mt-12 md:mt-16 border-t border-morandi-blue/40 pt-6 text-center w-full max-w-[400px]">
+                    <p class="text-xs md:text-sm font-serif italic text-morandi-text/60 tracking-[0.2em]">
+                        Welcome to XiaoLv's Personal Space
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 首屏右下角抽签筒 (红色抽签桶造型) -->
+        <button
+            id="lot-bucket"
+            onclick="drawLot()"
+            class="hidden md:flex flex-col items-center justify-end
+                   absolute bottom-8 right-6
+                   w-16 h-20 rounded-b-3xl rounded-t-xl
+                   bg-gradient-to-t from-red-900 via-red-700 to-red-500
+                   shadow-[0_14px_40px_rgba(0,0,0,0.6)]
+                   border border-white/25
+                   transition-transform duration-300
+                   lot-bucket">
+            <!-- 桶口高光 -->
+            <div class="w-[115%] h-3 rounded-full bg-red-200/40 border border-white/40 -mt-2"></div>
+            <!-- 桶内签条 (视觉上很多签) -->
+            <div class="relative w-[80%] h-10 -mt-3 flex items-end justify-center gap-[2px]">
+                <span class="block w-[3px] h-6 bg-yellow-100/90 rounded-full"></span>
+                <span class="block w-[3px] h-8 bg-yellow-50/90 rounded-full"></span>
+                <span class="block w-[3px] h-7 bg-yellow-100/90 rounded-full"></span>
+                <span class="block w-[3px] h-9 bg-yellow-50/95 rounded-full"></span>
+                <span class="block w-[3px] h-6 bg-yellow-100/90 rounded-full"></span>
+            </div>
+            <!-- 桶身文字 -->
+            <div class="w-full flex-1 flex items-center justify-center">
+                <span class="text-xs tracking-[0.35em] text-white/90 font-serif">
+                    抽签
+                </span>
+            </div>
+        </button>
+    </section>
+
+    <!-- 抽签结果全屏遮罩 -->
+    <div id="lot-overlay" class="fixed inset-0 bg-black/45 backdrop-blur-xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-400 z-[150]">
+        <div class="bg-gradient-to-br from-red-900 via-red-800 to-red-700 border border-red-300/40 rounded-[2.25rem] px-10 py-10 shadow-[0_28px_80px_rgba(0,0,0,0.85)] text-center max-w-xs">
+            <div class="text-sm tracking-[0.4em] text-red-100/80 mb-5 font-serif">今 日 之 签</div>
+
+            <!-- 木质令牌造型 -->
+            <div class="mx-auto mb-6 w-28 h-40 rounded-[1.8rem] bg-gradient-to-b from-[#F7E2B8] via-[#E5C890] to-[#C29B63] shadow-[0_14px_30px_rgba(0,0,0,0.5)] border border-[#E8D3A4] flex items-center justify-center relative overflow-hidden">
+                <!-- 纵向木纹细线 -->
+                <div class="absolute inset-0 opacity-40 pointer-events-none">
+                    <div class="w-[1px] h-full bg-black/5 absolute left-1/4 top-0"></div>
+                    <div class="w-[1px] h-full bg-black/8 absolute left-1/2 top-0"></div>
+                    <div class="w-[1px] h-full bg-black/5 absolute left-3/4 top-0"></div>
+                </div>
+                <!-- 顶部暗边 -->
+                <div class="absolute top-0 inset-x-0 h-4 bg-gradient-to-b from-black/10 to-transparent"></div>
+
+                <div id="lot-result-text" class="relative z-10 text-4xl md:text-5xl font-serif tracking-[0.3em] text-[#5C2A10]">
+                    吉
+                </div>
+            </div>
+
+            <div class="text-[11px] text-red-100/70 tracking-[0.25em] font-serif">轻点任意处收起</div>
+        </div>
+    </div>
+
+    <!-- 2. 第二屏 (人生轨迹：全屏交互地图) -->
+    <section id="timeline" class="py-24 bg-morandi-bg relative min-h-screen flex flex-col justify-center">
+        <div class="max-w-6xl mx-auto px-6 w-full">
+            <div class="text-center mb-10 fade-up-element opacity-0 translate-y-8 transition-all duration-1000">
+                <h2 class="text-3xl md:text-4xl font-serif tracking-[0.15em] text-morandi-heading">人 生 轨 迹</h2>
+                <div class="w-12 h-[2px] bg-morandi-blue/70 mx-auto mt-6"></div>
+                <p class="mt-4 text-morandi-text/60 tracking-widest text-sm font-serif italic">在地图上探索我的足迹 (点击节点查看详情)</p>
+            </div>
+
+            <div class="w-full flex justify-center fade-up-element opacity-0 translate-y-8 transition-all duration-1000 delay-200">
+                <!-- 调整容器高度，确保在一个屏幕内完整显示 -->
+                <div class="relative w-full max-w-4xl h-[65vh] min-h-[500px] bg-morandi-card rounded-2xl shadow-soft p-4 border border-morandi-light/50 overflow-hidden flex items-center justify-center">
+                    <svg viewBox="0 0 1000 750" class="w-full h-full object-contain" id="china-map">
+                        
+                        <!-- 抽象中国轮廓线 (背景) -->
+                        <path d="M 150 200 C 400 120, 600 50, 750 100 C 900 120, 950 200, 900 300 C 850 400, 850 450, 800 600 C 750 700, 650 750, 550 700 C 450 750, 400 650, 450 600 C 300 600, 200 550, 200 500 C 50 400, 50 250, 150 200 Z" fill="#1E222A" stroke="#374151" stroke-width="2" stroke-dasharray="6,6" opacity="0.6"/>
+                        
+                        <!-- 黄河 (大致轮廓) -->
+                        <path d="M 350 350 Q 400 280, 450 320 T 550 280 T 650 350 T 750 320" fill="none" stroke="#8B9BB4" stroke-width="1.5" opacity="0.3"/>
+                        <text x="380" y="310" fill="#8B9BB4" font-size="16" font-family="serif" opacity="0.4" letter-spacing="2">黄河</text>
+
+                        <!-- 长江 (大致轮廓) -->
+                        <path d="M 300 450 Q 450 500, 550 450 T 700 480 T 800 450" fill="none" stroke="#8B9BB4" stroke-width="1.5" opacity="0.3"/>
+                        <text x="350" y="450" fill="#8B9BB4" font-size="16" font-family="serif" opacity="0.4" letter-spacing="2">长江</text>
+
+                        <!-- 轨迹连线 (按手绘图顺序，使用贝塞尔曲线让线条弯曲自然) -->
+                        <!-- 路径：徐州 -> 沈阳 -> 大连 -> 南京 -> 中山 -->
+                        <path d="M 680 380 
+                                 Q 720 250, 750 180 
+                                 Q 800 190, 820 220 
+                                 Q 750 350, 700 460 
+                                 Q 680 550, 650 650" 
+                              fill="none" stroke="#8B9BB4" stroke-width="2" class="trajectory-line"/>
+
+                        <!-- ================= 常驻轨迹节点 (主线) ================= -->
+
+                        <!-- 节点：徐州 -->
+                        <g class="map-node cursor-pointer group" style="transform-origin: 680px 380px;" onclick="window.location.href='pages/detail.html?id=xuzhou'">
+                            <circle cx="680" cy="380" r="25" fill="transparent"/>
+                            <circle cx="680" cy="380" r="6" fill="#1E222A" stroke="#8B9BB4" stroke-width="3" class="group-hover:fill-[#8B9BB4] transition-colors duration-300"/>
+                            <text x="650" y="385" fill="#F3F4F6" font-size="22" font-family="serif" font-weight="bold" class="group-hover:fill-white transition-colors" text-anchor="end">徐州新沂</text>
+                            <text x="650" y="410" fill="#8B9BB4" font-size="16" font-family="sans-serif" text-anchor="end">2001 - 2020</text>
+                        </g>
+
+                        <!-- 节点：沈阳 -->
+                        <g class="map-node cursor-pointer group" style="transform-origin: 750px 180px;" onclick="window.location.href='pages/detail.html?id=shenyang'">
+                            <circle cx="750" cy="180" r="25" fill="transparent"/>
+                            <circle cx="750" cy="180" r="6" fill="#1E222A" stroke="#8B9BB4" stroke-width="3" class="group-hover:fill-[#8B9BB4] transition-colors duration-300"/>
+                            <text x="750" y="150" fill="#F3F4F6" font-size="22" font-family="serif" font-weight="bold" class="group-hover:fill-white transition-colors" text-anchor="middle">沈阳</text>
+                            <text x="750" y="125" fill="#8B9BB4" font-size="16" font-family="sans-serif" text-anchor="middle">2020 - 2021</text>
+                        </g>
+
+                        <!-- 节点：大连 -->
+                        <g class="map-node cursor-pointer group" style="transform-origin: 820px 220px;" onclick="window.location.href='pages/detail.html?id=dalian'">
+                            <circle cx="820" cy="220" r="25" fill="transparent"/>
+                            <circle cx="820" cy="220" r="6" fill="#1E222A" stroke="#8B9BB4" stroke-width="3" class="group-hover:fill-[#8B9BB4] transition-colors duration-300"/>
+                            <text x="845" y="215" fill="#F3F4F6" font-size="22" font-family="serif" font-weight="bold" class="group-hover:fill-white transition-colors">大连</text>
+                            <text x="845" y="240" fill="#8B9BB4" font-size="16" font-family="sans-serif">2021 - 2024</text>
+                        </g>
+
+                        <!-- 节点：南京 -->
+                        <g class="map-node cursor-pointer group" style="transform-origin: 700px 460px;" onclick="window.location.href='pages/detail.html?id=nanjing'">
+                            <circle cx="700" cy="460" r="25" fill="transparent"/>
+                            <circle cx="700" cy="460" r="6" fill="#1E222A" stroke="#8B9BB4" stroke-width="3" class="group-hover:fill-[#8B9BB4] transition-colors duration-300"/>
+                            <text x="675" y="465" fill="#F3F4F6" font-size="22" font-family="serif" font-weight="bold" class="group-hover:fill-white transition-colors" text-anchor="end">南京</text>
+                            <text x="675" y="490" fill="#8B9BB4" font-size="16" font-family="sans-serif" text-anchor="end">2024 - 2025</text>
+                        </g>
+
+                        <!-- 节点：中山 -->
+                        <g class="map-node cursor-pointer group" style="transform-origin: 650px 650px;" onclick="window.location.href='pages/detail.html?id=zhongshan'">
+                            <circle cx="650" cy="650" r="25" fill="transparent"/>
+                            <circle cx="650" cy="650" r="6" fill="#1E222A" stroke="#8B9BB4" stroke-width="3" class="group-hover:fill-[#8B9BB4] transition-colors duration-300"/>
+                            <text x="675" y="660" fill="#F3F4F6" font-size="22" font-family="serif" font-weight="bold" class="group-hover:fill-white transition-colors">中山</text>
+                            <text x="675" y="685" fill="#8B9BB4" font-size="16" font-family="sans-serif">2025 - 2026</text>
+                        </g>
+
+                        <!-- ================= 独立/其他城市节点 ================= -->
+
+                        <!-- 节点：天津 -->
+                        <g class="map-node cursor-pointer group" style="transform-origin: 700px 280px;" onclick="window.location.href='pages/detail.html?id=tianjin'">
+                            <circle cx="700" cy="280" r="20" fill="transparent"/>
+                            <circle cx="700" cy="280" r="4" fill="#1E222A" stroke="#6B7280" stroke-width="2" class="group-hover:fill-[#8B9BB4] group-hover:stroke-[#8B9BB4] transition-colors duration-300"/>
+                            <text x="680" y="285" fill="#9CA3AF" font-size="18" font-family="serif" font-weight="bold" class="group-hover:fill-white transition-colors" text-anchor="end">天津</text>
+                        </g>
+
+                        <!-- 节点：青岛 -->
+                        <g class="map-node cursor-pointer group" style="transform-origin: 760px 330px;" onclick="window.location.href='pages/detail.html?id=qingdao'">
+                            <circle cx="760" cy="330" r="20" fill="transparent"/>
+                            <circle cx="760" cy="330" r="4" fill="#1E222A" stroke="#6B7280" stroke-width="2" class="group-hover:fill-[#8B9BB4] group-hover:stroke-[#8B9BB4] transition-colors duration-300"/>
+                            <text x="785" y="335" fill="#9CA3AF" font-size="18" font-family="serif" font-weight="bold" class="group-hover:fill-white transition-colors">青岛</text>
+                        </g>
+
+                        <!-- 节点：上海 -->
+                        <g class="map-node cursor-pointer group" style="transform-origin: 780px 470px;" onclick="window.location.href='pages/detail.html?id=shanghai'">
+                            <circle cx="780" cy="470" r="20" fill="transparent"/>
+                            <circle cx="780" cy="470" r="4" fill="#1E222A" stroke="#6B7280" stroke-width="2" class="group-hover:fill-[#8B9BB4] group-hover:stroke-[#8B9BB4] transition-colors duration-300"/>
+                            <text x="805" y="475" fill="#9CA3AF" font-size="18" font-family="serif" font-weight="bold" class="group-hover:fill-white transition-colors">上海</text>
+                        </g>
+
+                        <!-- 节点：西安 -->
+                        <g class="map-node cursor-pointer group" style="transform-origin: 550px 380px;" onclick="window.location.href='pages/detail.html?id=xian'">
+                            <circle cx="550" cy="380" r="20" fill="transparent"/>
+                            <circle cx="550" cy="380" r="4" fill="#1E222A" stroke="#6B7280" stroke-width="2" class="group-hover:fill-[#8B9BB4] group-hover:stroke-[#8B9BB4] transition-colors duration-300"/>
+                            <text x="525" y="385" fill="#9CA3AF" font-size="18" font-family="serif" font-weight="bold" class="group-hover:fill-white transition-colors" text-anchor="end">西安</text>
+                        </g>
+
+                        <!-- 节点：武汉 -->
+                        <g class="map-node cursor-pointer group" style="transform-origin: 620px 490px;" onclick="window.location.href='pages/detail.html?id=wuhan'">
+                            <circle cx="620" cy="490" r="20" fill="transparent"/>
+                            <circle cx="620" cy="490" r="4" fill="#1E222A" stroke="#6B7280" stroke-width="2" class="group-hover:fill-[#8B9BB4] group-hover:stroke-[#8B9BB4] transition-colors duration-300"/>
+                            <text x="595" y="495" fill="#9CA3AF" font-size="18" font-family="serif" font-weight="bold" class="group-hover:fill-white transition-colors" text-anchor="end">武汉</text>
+                        </g>
+
+                        <!-- 节点：广州 -->
+                        <g class="map-node cursor-pointer group" style="transform-origin: 610px 620px;" onclick="window.location.href='pages/detail.html?id=guangzhou'">
+                            <circle cx="610" cy="620" r="20" fill="transparent"/>
+                            <circle cx="610" cy="620" r="4" fill="#1E222A" stroke="#6B7280" stroke-width="2" class="group-hover:fill-[#8B9BB4] group-hover:stroke-[#8B9BB4] transition-colors duration-300"/>
+                            <text x="585" y="625" fill="#9CA3AF" font-size="18" font-family="serif" font-weight="bold" class="group-hover:fill-white transition-colors" text-anchor="end">广州</text>
+                        </g>
+
+                        <!-- 节点：深圳 -->
+                        <g class="map-node cursor-pointer group" style="transform-origin: 680px 630px;" onclick="window.location.href='pages/detail.html?id=shenzhen'">
+                            <circle cx="680" cy="630" r="20" fill="transparent"/>
+                            <circle cx="680" cy="630" r="4" fill="#1E222A" stroke="#6B7280" stroke-width="2" class="group-hover:fill-[#8B9BB4] group-hover:stroke-[#8B9BB4] transition-colors duration-300"/>
+                            <text x="705" y="635" fill="#9CA3AF" font-size="18" font-family="serif" font-weight="bold" class="group-hover:fill-white transition-colors">深圳</text>
+                        </g>
+
+                        <!-- 节点：珠海 -->
+                        <g class="map-node cursor-pointer group" style="transform-origin: 630px 680px;" onclick="window.location.href='pages/detail.html?id=zhuhai'">
+                            <circle cx="630" cy="680" r="20" fill="transparent"/>
+                            <circle cx="630" cy="680" r="4" fill="#1E222A" stroke="#6B7280" stroke-width="2" class="group-hover:fill-[#8B9BB4] group-hover:stroke-[#8B9BB4] transition-colors duration-300"/>
+                            <text x="605" y="685" fill="#9CA3AF" font-size="18" font-family="serif" font-weight="bold" class="group-hover:fill-white transition-colors" text-anchor="end">珠海</text>
+                        </g>
+
+                        <!-- 节点：澳门 -->
+                        <g class="map-node cursor-pointer group" style="transform-origin: 640px 710px;" onclick="window.location.href='pages/detail.html?id=macau'">
+                            <circle cx="640" cy="710" r="20" fill="transparent"/>
+                            <circle cx="640" cy="710" r="4" fill="#1E222A" stroke="#6B7280" stroke-width="2" class="group-hover:fill-[#8B9BB4] group-hover:stroke-[#8B9BB4] transition-colors duration-300"/>
+                            <text x="665" y="715" fill="#9CA3AF" font-size="18" font-family="serif" font-weight="bold" class="group-hover:fill-white transition-colors">澳门</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 第三屏 (兴趣爱好：分模块展示) -->
+    <section id="hobbies" class="py-32 bg-[#1A1E24] relative border-y border-morandi-light/30">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-24 fade-up-element opacity-0 translate-y-8 transition-all duration-1000">
+                <h2 class="text-3xl md:text-4xl font-serif tracking-[0.15em] text-morandi-heading">内 心 角 落</h2>
+                <div class="w-12 h-[2px] bg-morandi-blue/70 mx-auto mt-6"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- 模块 1：玄学 -->
+                <div class="hobby-card bg-morandi-card rounded-xl p-10 cursor-pointer border border-transparent hover:border-morandi-blue/50 hover:shadow-soft transition-all duration-500 fade-up-element opacity-0 translate-y-8 group transform hover:-translate-y-2" style="transition-delay: 100ms;" onclick="window.location.href='pages/detail.html?id=metaphysics'">
+                    <div class="w-16 h-16 rounded-full bg-[#1E222A] flex items-center justify-center mb-8 text-morandi-text group-hover:text-morandi-blue transition-colors duration-500 border border-morandi-light shadow-sm">
+                        <i class="fa-solid fa-yin-yang text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-serif text-morandi-heading mb-4 tracking-wider">玄学探索</h3>
+                    <p class="text-base text-morandi-text/80 leading-relaxed">
+                        易学研究与实践。在无常的喧嚣中，寻找隐秘的秩序与内心的宁静。
+                    </p>
+                </div>
+
+                <!-- 模块 2：运动 -->
+                <div class="hobby-card bg-morandi-card rounded-xl p-10 cursor-pointer border border-transparent hover:border-morandi-blue/50 hover:shadow-soft transition-all duration-500 fade-up-element opacity-0 translate-y-8 group transform hover:-translate-y-2" style="transition-delay: 200ms;" onclick="window.location.href='pages/detail.html?id=sports'">
+                    <div class="w-16 h-16 rounded-full bg-[#1E222A] flex items-center justify-center mb-8 text-morandi-text group-hover:text-morandi-blue transition-colors duration-500 border border-morandi-light shadow-sm">
+                        <i class="fa-solid fa-person-running text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-serif text-morandi-heading mb-4 tracking-wider">日常运动</h3>
+                    <p class="text-base text-morandi-text/80 leading-relaxed">
+                        跑步、健身与羽毛球。用身体的疲惫，换取精神的短暂抽离与清醒。
+                    </p>
+                </div>
+
+                <!-- 模块 3：AI相关 -->
+                <div class="hobby-card bg-morandi-card rounded-xl p-10 cursor-pointer border border-transparent hover:border-morandi-blue/50 hover:shadow-soft transition-all duration-500 fade-up-element opacity-0 translate-y-8 group transform hover:-translate-y-2" style="transition-delay: 300ms;" onclick="window.location.href='pages/detail.html?id=ai'">
+                    <div class="w-16 h-16 rounded-full bg-[#1E222A] flex items-center justify-center mb-8 text-morandi-text group-hover:text-morandi-blue transition-colors duration-500 border border-morandi-light shadow-sm">
+                        <i class="fa-solid fa-robot text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-serif text-morandi-heading mb-4 tracking-wider">AI 科技</h3>
+                    <p class="text-base text-morandi-text/80 leading-relaxed">
+                        凝视硅基生命的演进，思考技术洪流下人类创造力的边界与归宿。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 第四屏 (联系方式) -->
+    <section id="contact" class="py-32 bg-morandi-bg relative">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-24 fade-up-element opacity-0 translate-y-8 transition-all duration-1000">
+                <h2 class="text-3xl md:text-4xl font-serif tracking-[0.15em] text-morandi-heading">空 谷 回 音</h2>
+                <div class="w-12 h-[2px] bg-morandi-blue/70 mx-auto mt-6"></div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-center items-center md:items-start gap-16 md:gap-24">
+                
+                <!-- 微信 -->
+                <div class="contact-item group flex flex-col items-center cursor-pointer fade-up-element opacity-0 translate-y-8 transition-all duration-700 delay-100" onclick="copyText('maochengs3', '微信号已复制')">
+                    <div class="w-20 h-20 rounded-full bg-morandi-card border border-morandi-light flex items-center justify-center mb-6 text-morandi-text group-hover:text-morandi-heading group-hover:border-morandi-blue group-hover:shadow-soft transition-all duration-500 transform group-hover:scale-105">
+                        <i class="fa-brands fa-weixin text-3xl"></i>
+                    </div>
+                    <span class="text-sm text-morandi-text/60 mb-2 tracking-widest uppercase font-serif">WeChat</span>
+                    <span class="text-lg font-medium text-morandi-heading group-hover:text-morandi-blue transition-colors tracking-wider">maochengs3</span>
+                </div>
+
+                <!-- 公众号 -->
+                <div class="contact-item group flex flex-col items-center cursor-pointer fade-up-element opacity-0 translate-y-8 transition-all duration-700 delay-200" onclick="copyText('旅贞吉易学', '公众号名称已复制')">
+                    <div class="w-20 h-20 rounded-full bg-morandi-card border border-morandi-light flex items-center justify-center mb-6 text-morandi-text group-hover:text-morandi-heading group-hover:border-morandi-blue group-hover:shadow-soft transition-all duration-500 transform group-hover:scale-105">
+                        <i class="fa-regular fa-newspaper text-3xl"></i>
+                    </div>
+                    <span class="text-sm text-morandi-text/60 mb-2 tracking-widest uppercase font-serif">Official</span>
+                    <span class="text-lg font-medium text-morandi-heading group-hover:text-morandi-blue transition-colors tracking-wider">旅贞吉易学</span>
+                </div>
+
+                <!-- 小红书 -->
+                <a href="https://www.xiaohongshu.com/user/profile/67b491c1000000000601d030?xsec_token=YBTjIByrR6oCWjAJqgqtGM_YGcLa-pf7nVQM5z0CfY-xY=&xsec_source=app_share&&apptime=1773200848&shareRedId=OD1ENDw2Rzo2NzUyOTgwNjY5OThINTk5&share_id=c8cebf048e484a53917386b5d85c2b73&xhsshare=CopyLink" target="_blank" class="contact-item group flex flex-col items-center cursor-pointer fade-up-element opacity-0 translate-y-8 transition-all duration-700 delay-300">
+                    <div class="w-20 h-20 rounded-full bg-morandi-card border border-morandi-light flex items-center justify-center mb-6 text-morandi-text group-hover:text-morandi-heading group-hover:border-morandi-blue group-hover:shadow-soft transition-all duration-500 transform group-hover:scale-105">
+                        <i class="fa-solid fa-book-open text-2xl"></i>
+                    </div>
+                    <span class="text-sm text-morandi-text/60 mb-2 tracking-widest uppercase font-serif">RED</span>
+                    <span class="text-lg font-medium text-morandi-heading group-hover:text-morandi-blue transition-colors tracking-wider">不想戴眼镜</span>
+                </a>
+
+                <!-- 抖音 -->
+                <a href="https://www.douyin.com/user/self?from_tab_name=main" target="_blank" class="contact-item group flex flex-col items-center cursor-pointer fade-up-element opacity-0 translate-y-8 transition-all duration-700 delay-400">
+                    <div class="w-20 h-20 rounded-full bg-morandi-card border border-morandi-light flex items-center justify-center mb-6 text-morandi-text group-hover:text-morandi-heading group-hover:border-morandi-blue group-hover:shadow-soft transition-all duration-500 transform group-hover:scale-105">
+                        <i class="fa-brands fa-tiktok text-3xl"></i>
+                    </div>
+                    <span class="text-sm text-morandi-text/60 mb-2 tracking-widest uppercase font-serif">TikTok</span>
+                    <span class="text-lg font-medium text-morandi-heading group-hover:text-morandi-blue transition-colors tracking-wider">不想戴眼镜</span>
+                </a>
+
+            </div>
+
+            <!-- 收尾提示 -->
+            <div class="text-center mt-32 fade-up-element opacity-0 transition-all duration-1000 delay-500">
+                <p class="text-base tracking-[0.3em] text-morandi-text/50 font-serif italic">相逢有时 · 静水流深</p>
+                <p class="text-xs tracking-[0.2em] text-morandi-text/30 mt-6 uppercase">© 2026 XiaoLv. All Rights Reserved.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 引入自定义 JavaScript -->
+    <script src="js/main.js"></script>
+
+    <!-- 图片放大灯箱 (Lightbox) -->
+    <div id="lightbox" class="fixed inset-0 bg-[#121416]/90 backdrop-blur-xl z-[200] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500" onclick="closeLightbox()">
+        <div class="relative p-2 bg-gradient-to-br from-[#2A2F3A] to-[#1E222A] rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.6)] transform scale-95 transition-transform duration-500 border border-white/10" id="lightbox-content">
+            <img id="lightbox-img" src="" class="max-w-[90vw] max-h-[85vh] object-contain rounded-[2rem]">
+            <!-- 关闭按钮 -->
+            <div class="absolute -top-12 right-0 md:-right-12 text-white/50 hover:text-white cursor-pointer text-3xl transition-colors">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
